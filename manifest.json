@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Backlog assign helper",
+  "version": "1.0.0",
+  "description": "Assign the mentioned member as the assignee with keyboard shortcuts.",
+  "permissions": ["activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://*.backlog.jp/*", "https://*.backlog.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
