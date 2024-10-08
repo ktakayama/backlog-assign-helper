@@ -48,6 +48,9 @@ function handleAutoAssign() {
   );
   let divId = divElement ? divElement.getAttribute("id") : null;
 
+  // フォーカスを取得
+  let activeElement = document.activeElement;
+
   // 担当者項目をクリックして選択肢を表示
   if (divId) {
     let chznContainer = document.querySelector(
@@ -62,6 +65,7 @@ function handleAutoAssign() {
         if (listItem) {
           listItem.click();
         }
+        activeElement.focus();
       }, 10);
     }
   }
