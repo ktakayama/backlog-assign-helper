@@ -38,6 +38,9 @@ function handleAutoAssign() {
     "#leftCommentContent .at-mention-node"
   );
   let userId = userIdElement ? userIdElement.getAttribute("data-id") : null;
+  if (userId === null) {
+    return;
+  }
 
   // 担当者リストのIDを取得
   let divElement = document.querySelector(
