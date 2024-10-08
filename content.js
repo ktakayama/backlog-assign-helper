@@ -1,4 +1,5 @@
 function main() {
+  // 画面の要素が変わるタイミングで、再度ハンドリング登録
   const config = {
     subtree: true,
     characterData: true,
