@@ -26,7 +26,11 @@ function handleLoadPage() {
 }
 
 function handleKeydownEvent(event) {
-  if (event.metaKey && event.shiftKey && event.code === "KeyA") {
+  if (
+    (event.metaKey || event.ctrlKey) &&
+    event.shiftKey &&
+    event.code === "KeyA"
+  ) {
     event.preventDefault();
     handleAutoAssign();
   }
