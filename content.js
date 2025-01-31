@@ -54,7 +54,7 @@ function handleAutoAssign() {
   // 担当者項目をクリックして選択肢を表示
   if (divId) {
     let chznContainer = document.querySelector(
-      `#${divId} > div.chzn-container`
+      `#${divId} > div.chzn-container button`
     );
     if (chznContainer) {
       chznContainer.click();
