@@ -13,7 +13,6 @@
       "16": "icons/icon-16.png"
     }
   },
-  "permissions": ["activeTab", "scripting"],
   "content_scripts": [
     {
       "matches": ["https://*.backlog.jp/*", "https://*.backlog.com/*"],
