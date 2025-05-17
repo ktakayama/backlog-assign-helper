@@ -15,6 +15,49 @@ function main() {
 
   const observer = new MutationObserver(callback);
   observer.observe(document.body, config);
+
+  window.addEventListener("load", function () {
+    // モーダルで表示される場合、iframeで表示されるため別途observerを設定する
+    const iframe = document.getElementById("issue-dialog-iframe");
+    if (iframe) {
+      iframe.addEventListener("load", function () {
+        const iframeDocument = this.contentWindow.document;
+
+        const handleKeydownEventForIframe = (event) => {
+          if (
+            (event.metaKey || event.ctrlKey) &&
+            event.shiftKey &&
+            event.code === "KeyA"
+          ) {
+            event.preventDefault();
+            handleAutoAssign(iframeDocument);
+          }
+        };
+
+        const handleLoadPageForIframe = () => {
+          let comment = iframeDocument.getElementById("leftCommentContent");
+          if (comment) {
+            comment.addEventListener("keydown", handleKeydownEventForIframe);
+            iframeDocument.addEventListener(
+              "keydown",
+              handleKeydownEventForIframe
+            );
+          }
+        };
+
+        const callback = function (mutationsList, _) {
+          for (const mutation of mutationsList) {
+            if (mutation.type === "characterData") {
+              handleLoadPageForIframe();
+            }
+          }
+        };
+
+        const observer = new MutationObserver(callback);
+        observer.observe(iframeDocument.body, config);
+      });
+    }
+  });
 }
 
 function handleLoadPage() {
@@ -32,11 +75,11 @@ function handleKeydownEvent(event) {
     event.code === "KeyA"
   ) {
     event.preventDefault();
-    handleAutoAssign();
+    handleAutoAssign(document);
   }
 }
 
-function handleAutoAssign() {
+function handleAutoAssign(document) {
   // メンション先のユーザーIDを取得
   let userIdElement = document.querySelector(
     "#leftCommentContent .at-mention-node"
