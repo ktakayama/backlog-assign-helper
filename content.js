@@ -46,7 +46,7 @@ class AssignChanger {
    * Handles the loading of the page by attaching event listeners to the comment input field.
    */
   handleLoadPage = () => {
-    let comment = this.document.getElementById("leftCommentContent");
+    const comment = this.document.getElementById("leftCommentContent");
     if (comment) {
       comment.addEventListener("keydown", this.handleKeydownEvent);
       this.document.addEventListener("keydown", this.handleKeydownEvent);
@@ -74,26 +74,26 @@ class AssignChanger {
    */
   handleAutoAssign = () => {
     // Get the user ID from the mention
-    let userIdElement = this.document.querySelector(
+    const userIdElement = this.document.querySelector(
       "#leftCommentContent .at-mention-node",
     );
-    let userId = userIdElement ? userIdElement.getAttribute("data-id") : null;
+    const userId = userIdElement ? userIdElement.getAttribute("data-id") : null;
     if (userId === null) {
       return;
     }
 
     // Get the ID of the assignee list
-    let divElement = this.document.querySelector(
+    const divElement = this.document.querySelector(
       "div.change-statuses-properties-item.-assigner div div",
     );
-    let divId = divElement ? divElement.getAttribute("id") : null;
+    const divId = divElement ? divElement.getAttribute("id") : null;
 
     // Get the current focus
-    let activeElement = this.document.activeElement;
+    const activeElement = this.document.activeElement;
 
     // Click the assignee field to show options
     if (divId) {
-      let chznContainer = this.document.querySelector(
+      const chznContainer = this.document.querySelector(
         `#${divId} > div.chzn-container button`,
       );
       if (chznContainer) {
