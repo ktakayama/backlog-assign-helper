@@ -69,52 +69,77 @@ class AssignChanger {
   };
 
   /**
-   * Automatically assigns a user based on the mention in the comment field.
-   * Retrieves the user ID from the mention and assigns them as the responsible user.
+   * Gets the user ID mentioned in the comment field.
+   * @returns {string|null} The user ID if found, otherwise null.
    */
-  handleAutoAssign = () => {
-    // Get the user ID from the mention
+  getMentionedUserId = () => {
     const userIdElement = this.document.querySelector(
       "#leftCommentContent .at-mention-node",
     );
-    const userId = userIdElement ? userIdElement.getAttribute("data-id") : null;
-    if (userId === null) {
-      return;
-    }
+    return userIdElement ? userIdElement.getAttribute("data-id") : null;
+  };
 
-    // Get the ID of the assignee list
+  /**
+   * Gets the div ID of the assignee selection field.
+   * @returns {string|null} The div ID if found, otherwise null.
+   */
+  getAssigneeDivId = () => {
     const divElement = this.document.querySelector(
       "div.change-statuses-properties-item.-assigner div div",
     );
-    const divId = divElement ? divElement.getAttribute("id") : null;
+    return divElement ? divElement.getAttribute("id") : null;
+  };
 
-    // Get the current focus
+  /**
+   * Opens the assignee selection dropdown.
+   * @param {string} divId - The div ID of the assignee selection field.
+   * @returns {boolean} True if dropdown was opened, false otherwise.
+   */
+  openAssigneeDropdown = (divId) => {
+    const chznContainer = this.document.querySelector(
+      `#${divId} > div.chzn-container button`,
+    );
+    if (chznContainer) {
+      chznContainer.click();
+      return true;
+    }
+    return false;
+  };
+
+  /**
+   * Clicks the assignee in the dropdown list based on the user ID.
+   * @param {string} userId - The ID of the user to assign.
+   * @param {string} divId - The ID of the dropdown container.
+   * @param {Element|null} activeElement - The currently focused element.
+   */
+  clickAssignee = (userId, divId, activeElement) => {
+    const listItem = this.document.querySelector(`#${divId}_list-${userId}`);
+    if (listItem) {
+      listItem.click();
+    }
+    if (activeElement) {
+      activeElement.focus();
+    }
+  };
+
+  /**
+   * Performs the automatic assignment of the mentioned user as assignee.
+   */
+  handleAutoAssign = () => {
+    const userId = this.getMentionedUserId();
+    if (!userId) {
+      return;
+    }
+
+    const divId = this.getAssigneeDivId();
+    if (!divId) {
+      return;
+    }
+
     const activeElement = this.document.activeElement;
 
-    // Click the assignee field to show options
-    if (divId) {
-      const chznContainer = this.document.querySelector(
-        `#${divId} > div.chzn-container button`,
-      );
-      if (chznContainer) {
-        chznContainer.click();
-
-        /**
-         * Clicks the assignee in the dropdown list based on the user ID.
-         * @param {string} userId - The ID of the user to assign.
-         * @param {string} divId - The ID of the dropdown container.
-         */
-        const clickAssigner = (userId, divId) => {
-          const listItem = this.document.querySelector(
-            `#${divId}_list-${userId}`,
-          );
-          if (listItem) {
-            listItem.click();
-          }
-          activeElement.focus();
-        };
-        setTimeout(() => clickAssigner(userId, divId), 10);
-      }
+    if (this.openAssigneeDropdown(divId)) {
+      setTimeout(() => this.clickAssignee(userId, divId, activeElement), 10);
     }
   };
 }
