@@ -1,7 +1,6 @@
 /**
- * The `AssignChanger` class is responsible for handling automatic assignment
- * of users in a web application. It observes DOM mutations and listens for
- * specific keyboard shortcuts to trigger the assignment process.
+ * The AssignChanger class handles automatic user assignment in Backlog.
+ * It observes DOM mutations and listens for specific keyboard shortcuts to trigger assignment.
  */
 class AssignChanger {
   /**
@@ -55,7 +54,7 @@ class AssignChanger {
   }
 
   /**
-   * Handles the `keydown` event to detect specific keyboard shortcuts.
+   * Handles the keydown event to detect specific keyboard shortcuts.
    * @param {KeyboardEvent} event - The keyboard event object.
    */
   handleKeydownEvent = (event) => {
@@ -74,7 +73,7 @@ class AssignChanger {
    * Retrieves the user ID from the mention and assigns them as the responsible user.
    */
   handleAutoAssign() {
-    // メンション先のユーザーIDを取得
+    // Get the user ID from the mention
     let userIdElement = this.document.querySelector(
       "#leftCommentContent .at-mention-node"
     );
@@ -83,16 +82,16 @@ class AssignChanger {
       return;
     }
 
-    // 担当者リストのIDを取得
+    // Get the ID of the assignee list
     let divElement = this.document.querySelector(
       "div.change-statuses-properties-item.-assigner div div"
     );
     let divId = divElement ? divElement.getAttribute("id") : null;
 
-    // フォーカスを取得
+    // Get the current focus
     let activeElement = this.document.activeElement;
 
-    // 担当者項目をクリックして選択肢を表示
+    // Click the assignee field to show options
     if (divId) {
       let chznContainer = this.document.querySelector(
         `#${divId} > div.chzn-container button`
@@ -101,7 +100,7 @@ class AssignChanger {
         chznContainer.click();
 
         /**
-         * Clicks the assigner in the dropdown list based on the user ID.
+         * Clicks the assignee in the dropdown list based on the user ID.
          * @param {string} userId - The ID of the user to assign.
          * @param {string} divId - The ID of the dropdown container.
          */
@@ -124,7 +123,7 @@ function main() {
   new AssignChanger(document).observe();
 
   window.addEventListener("load", function () {
-    // モーダルで表示される場合、iframeで表示されるため別途observerを設定する
+    // When displayed in a modal iframe, set up observer separately
     const iframe = document.getElementById("issue-dialog-iframe");
     if (iframe) {
       iframe.addEventListener("load", function () {
