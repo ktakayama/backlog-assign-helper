@@ -45,13 +45,13 @@ class AssignChanger {
   /**
    * Handles the loading of the page by attaching event listeners to the comment input field.
    */
-  handleLoadPage() {
+  handleLoadPage = () => {
     let comment = this.document.getElementById("leftCommentContent");
     if (comment) {
       comment.addEventListener("keydown", this.handleKeydownEvent);
       this.document.addEventListener("keydown", this.handleKeydownEvent);
     }
-  }
+  };
 
   /**
    * Handles the keydown event to detect specific keyboard shortcuts.
@@ -72,10 +72,10 @@ class AssignChanger {
    * Automatically assigns a user based on the mention in the comment field.
    * Retrieves the user ID from the mention and assigns them as the responsible user.
    */
-  handleAutoAssign() {
+  handleAutoAssign = () => {
     // Get the user ID from the mention
     let userIdElement = this.document.querySelector(
-      "#leftCommentContent .at-mention-node"
+      "#leftCommentContent .at-mention-node",
     );
     let userId = userIdElement ? userIdElement.getAttribute("data-id") : null;
     if (userId === null) {
@@ -84,7 +84,7 @@ class AssignChanger {
 
     // Get the ID of the assignee list
     let divElement = this.document.querySelector(
-      "div.change-statuses-properties-item.-assigner div div"
+      "div.change-statuses-properties-item.-assigner div div",
     );
     let divId = divElement ? divElement.getAttribute("id") : null;
 
@@ -94,7 +94,7 @@ class AssignChanger {
     // Click the assignee field to show options
     if (divId) {
       let chznContainer = this.document.querySelector(
-        `#${divId} > div.chzn-container button`
+        `#${divId} > div.chzn-container button`,
       );
       if (chznContainer) {
         chznContainer.click();
@@ -106,7 +106,7 @@ class AssignChanger {
          */
         const clickAssigner = (userId, divId) => {
           const listItem = this.document.querySelector(
-            `#${divId}_list-${userId}`
+            `#${divId}_list-${userId}`,
           );
           if (listItem) {
             listItem.click();
@@ -116,18 +116,18 @@ class AssignChanger {
         setTimeout(() => clickAssigner(userId, divId), 10);
       }
     }
-  }
+  };
 }
 
 function main() {
   new AssignChanger(document).observe();
 
-  window.addEventListener("load", function () {
+  window.addEventListener("load", () => {
     // When displayed in a modal iframe, set up observer separately
     const iframe = document.getElementById("issue-dialog-iframe");
     if (iframe) {
-      iframe.addEventListener("load", function () {
-        const iframeDocument = this.contentWindow.document;
+      iframe.addEventListener("load", () => {
+        const iframeDocument = iframe.contentWindow.document;
         new AssignChanger(iframeDocument).observe();
       });
     }
