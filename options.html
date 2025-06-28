@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>設定</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        font-size: 14px;
+        color: #333;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+        min-width: 400px;
+      }
+
+      .container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin: 0 0 16px 0;
+        color: #2c3e50;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      .keybind-input-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      #keybindInput {
+        padding: 8px 12px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        width: 250px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+
+      #keybindInput:focus {
+        outline: none;
+        border-color: #4285f4;
+        background-color: white;
+      }
+
+      .help-text {
+        font-size: 12px;
+        color: #666;
+        margin-top: 6px;
+      }
+
+      .error-message {
+        font-size: 12px;
+        color: #d73502;
+        margin-top: 6px;
+        display: none;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .save-button {
+        background-color: #4285f4;
+        color: white;
+      }
+
+      .save-button:hover {
+        background-color: #3367d6;
+      }
+
+      .save-button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      .reset-button {
+        background-color: #f1f3f4;
+        color: #333;
+      }
+
+      .reset-button:hover {
+        background-color: #e0e0e0;
+      }
+
+      .success-message {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #34a853;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        display: none;
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>設定</h1>
+
+      <div class="form-group">
+        <label for="keybindInput">キーボードショートカット</label>
+        <div class="keybind-input-container">
+          <input
+            type="text"
+            id="keybindInput"
+            readonly
+            placeholder="クリックしてショートカットキーを押してください"
+          />
+        </div>
+        <div class="help-text">
+          入力欄をクリックして、使用したいキーの組み合わせを押してください。
+          Ctrl/CmdまたはAltを含む必要があります。
+        </div>
+        <div class="error-message" id="errorMessage"></div>
+      </div>
+
+      <div class="button-group">
+        <button class="save-button" id="saveButton" disabled>保存</button>
+        <button class="reset-button" id="resetButton">デフォルトに戻す</button>
+      </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+      設定を保存しました！
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
+
