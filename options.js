@@ -160,6 +160,7 @@ saveButton.addEventListener("click", async () => {
 resetButton.addEventListener("click", async () => {
   currentKeybind = { ...DEFAULT_KEYBIND };
   updateKeybindDisplay();
+  saveButton.disabled = true;
 
   try {
     await chrome.storage.sync.remove("keybind");
