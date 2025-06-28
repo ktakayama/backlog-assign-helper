@@ -19,6 +19,27 @@ class AssignChanger {
       subtree: true,
       characterData: true,
     };
+
+    /**
+     * Default keybind configuration
+     * @type {Object}
+     */
+    this.keybind = {
+      ctrlKey: false,
+      metaKey: true,
+      shiftKey: true,
+      altKey: false,
+      key: "A",
+    };
+
+    // Use Ctrl for Windows/Linux
+    if (navigator.platform.indexOf("Mac") === -1) {
+      this.keybind.metaKey = false;
+      this.keybind.ctrlKey = true;
+    }
+
+    // Load saved keybind settings
+    this.loadKeybindSettings();
   }
 
   /**
@@ -54,15 +75,40 @@ class AssignChanger {
   };
 
   /**
+   * Loads keybind settings from chrome storage
+   */
+  loadKeybindSettings = async () => {
+    try {
+      const result = await chrome.storage.sync.get("keybind");
+      if (result.keybind) {
+        this.keybind = result.keybind;
+      }
+    } catch (error) {
+      console.error("Failed to load keybind settings:", error);
+    }
+  };
+
+  /**
+   * Checks if the current keyboard event matches the configured keybind
+   * @param {KeyboardEvent} event - The keyboard event object
+   * @returns {boolean} True if the event matches the keybind
+   */
+  matchesKeybind = (event) => {
+    return (
+      event.ctrlKey === this.keybind.ctrlKey &&
+      event.shiftKey === this.keybind.shiftKey &&
+      event.altKey === this.keybind.altKey &&
+      event.metaKey === this.keybind.metaKey &&
+      event.key.toUpperCase() === this.keybind.key.toUpperCase()
+    );
+  };
+
+  /**
    * Handles the keydown event to detect specific keyboard shortcuts.
    * @param {KeyboardEvent} event - The keyboard event object.
    */
   handleKeydownEvent = (event) => {
-    if (
-      (event.metaKey || event.ctrlKey) &&
-      event.shiftKey &&
-      event.code === "KeyA"
-    ) {
+    if (this.matchesKeybind(event)) {
       event.preventDefault();
       this.handleAutoAssign();
     }
